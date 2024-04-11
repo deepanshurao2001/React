@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom'
+import Markdown from 'react-markdown'
   
 
 function Preview() {
@@ -47,11 +48,19 @@ function Preview() {
     
   }, [noteId])
 
+  const markdown = '# Hi, *Pluto*!'
+
   return (
-    <>
-    <h1>Enter note content</h1>
-    <textarea value={content} onChange={(e) => handleChange(e.target.value)} placeholder='enter something' style={{width: '100%' , height:'70vh'}} ></textarea>
-    </>
+    <div style={{display:'flex'}}>
+    <div style={{flex:'0.5'}}>
+      <textarea  value={content} style={{width:'100%', height:'70vh'}}  onChange ={(e) => {handleChange(e.target.value)}} ></textarea>
+    </div>
+    <div style={{flex:'0.5'}}>
+
+    <Markdown>{content}</Markdown>
+      
+    </div>
+    </div>
   )
 }
 
