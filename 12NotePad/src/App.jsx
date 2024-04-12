@@ -7,9 +7,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-import TextField from '@mui/material/TextField'
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import TextField from '@mui/material/TextField';
 import {Stack} from "@mui/material"
+
 
 function App() {
   const [notes, setNotes] = useState([])
@@ -116,67 +119,84 @@ function App() {
   
   return (
     <div>
-      <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <TextSnippetOutlinedIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Notes App
-          </Typography>
+              <Box sx={{ flexGrow: 1 }}>
+              <AppBar position="static">
+                <Toolbar>
+                  <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 2 }}
+                  >
+                    <TextSnippetOutlinedIcon />
+                  </IconButton>
+                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    Notes App
+                  </Typography>
 
 
-          <Stack spacing={2} direction="row">
+                  <Stack sx={{p: 1, }} spacing={2} direction="row">
 
-          <TextField
-          placeholder='Search'
-          value={searchString} onChange={(e) => handleSearch(e.target.value)}
-            sx={{
-              backgroundColor: "#FFFFFF",
-              color: "#1A1A1A",
-              
-            }}
-          />
+                  <TextField
+                  placeholder='Search'
+                  value={searchString} onChange={(e) => handleSearch(e.target.value)}
+                    sx={{
+                      backgroundColor: "#FFFFFF",
+                      color: "#1A1A1A",
+                      borderRadius:2
+                      
+                    }}
+                  />
 
-          <Button color="primary" variant='contained' onClick={() => addNote()}
-            sx={{
-              color: '#0000ff',
-              backgroundColor: "#FFFFFF",
-              "&: hover": {
-                backgroundColor: "#FFFFFF"
-              },
-            }}
-            disableElevation={true}
-          >Create</Button>
-          </Stack>
+                  <Button size="small" color="primary" variant='contained' onClick={() => addNote()}
+                    sx={{
+                      color: '#0000ff',
+                      backgroundColor: "#FFFFFF",
+                      "&: hover": {
+                        backgroundColor: "#FFFFFF"
+                      },
+                      
+                      p: 2,
+                     
+                    }}
+                    disableElevation={true}
+                  >Create</Button>
+                  </Stack>
 
 
-        </Toolbar>
-      </AppBar>
-    </Box>
+                </Toolbar>
+              </AppBar>
+            </Box>
       
-      <Box p={2}>
-      {
-       filteredNotes.map((note) => (
-        <div onClick={() => navigate('/preview/'+ note.id)} style={{backgroundColor: "yellow", color: "#1A1A1A", padding: "5px",  marginBottom: "5px", borderBottom: "1px solid rgba(0,0,0,0.02)"}}>
-          <h2 >{note?.title || 'untitled'}</h2>
-          <p>{note?.content || 'NO description'} </p>
-          <button onClick={(e) => {
-            e.stopPropagation()
-            deletenote(note.id)}
-          }>Delete Note</button>
-        </div>
-       ))
-       
-      }
-      </Box>
+            <Box sx={{ 
+                    display: 'flex', 
+                    flexWrap: 'wrap', 
+                    p: 1, 
+                    m: 1, 
+                    bgcolor: 'background.paper', 
+                    //maxWidth: 300, 
+                    borderRadius: 1, 
+                }}  >
+                  {filteredNotes.map((note) => (
+                    <Card key={note.id} onClick={() => navigate('/preview/'+ note.id)}  sx={{ minWidth: 260, p: 1, m:1 }} style={{backgroundColor: "#80B8B8"}}  >
+                      <CardContent >
+                        <Typography variant="h5" component="div" >
+                          {note?.title || 'untitled'}
+                        </Typography>
+                        <Typography variant="body1" style={{ color: "#1A1A1A", padding: "5px" }}>
+                          {note?.content || 'NO description'}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button  size="small" onClick={(e) => {
+                          e.stopPropagation();
+                          deletenote(note.id);
+                        }}variant="contained" href="#contained-buttons" >Delete Note</Button>
+                      </CardActions>
+                    </Card>
+                  ))}
+              </Box>
     </div>
   )
 }
